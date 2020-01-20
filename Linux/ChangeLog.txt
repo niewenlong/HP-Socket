@@ -1,4 +1,50 @@
 ﻿==========================================================================================
+v5.7.1 Update:
+==========================================================================================
+
+> UDP Update
+-----------------
+1. Add new component: UDP Nod:
+	1) UDP Node has no concept of "connection", and can send and receive data with any address.
+	2) UDP Node supports three execution modes: unicast, multicast, and broadcast.
+	3) Add UDP Node component demo 'hp-testecho-udp-node'.
+
+> Other Update
+-----------------
+1. Added 'Wait()' method for all components to wait for components to close.
+2. Added 'SetReuseAddressPolicy()' method for all communication components to support setting address reuse policy.
+3. Added 'SetSSLCipherList()' method for all SSL communication components to support setting SSL cipher suites.
+4. Extensive API updates, code refactoring and optimization.
+
+> Update instructions
+-----------------
+1. HP-Socket v5.7.1 has changed or deleted some old APIs, please refer to 'Chang-APIs.txt' when upgrading.
+
+==========================================================================================
+v5.6.4 Update:
+==========================================================================================
+
+> Regular Upadate
+-----------------
+1. Fix crash of HTTP component due to jemalloc bug.
+
+==========================================================================================
+v5.6.3 Update:
+==========================================================================================
+
+> Regular Upadate
+-----------------
+1. Code optimization to improve stability.
+
+==========================================================================================
+v5.6.2 Update:
+==========================================================================================
+
+> Regular Upadate
+-----------------
+1. Code optimization to improve stability.
+
+==========================================================================================
 v5.6.1 Update:
 ==========================================================================================
 

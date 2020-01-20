@@ -2,11 +2,11 @@
 * Copyright: JessMA Open Source (ldcsaa@gmail.com)
 *
 * Author	: Bruce Liang
-* Website	: http://www.jessma.org
-* Project	: https://github.com/ldcsaa
+* Website	: https://github.com/ldcsaa
+* Project	: https://github.com/ldcsaa/HP-Socket
 * Blog		: http://www.cnblogs.com/ldcsaa
 * Wiki		: http://www.oschina.net/p/hp-socket
-* QQ Group	: 75375912, 44636872
+* QQ Group	: 44636872, 75375912
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -74,13 +74,13 @@ using namespace std;
 #define PRINTLN(fmt, ...)				FPRINTLN(stdout, fmt, ##__VA_ARGS__)
 
 #if defined(DEBUG) && defined(DEBUG_TRACE)
-	#define TRACE(fmt, ...)				PRINTLN("> TRC (0x%8X, %d) " fmt, SELF_THREAD_ID, SELF_NATIVE_THREAD_ID, ##__VA_ARGS__)
+	#define TRACE(fmt, ...)				PRINTLN("> TRC (0x%zX, %d) " fmt, (SIZE_T)SELF_THREAD_ID, SELF_NATIVE_THREAD_ID, ##__VA_ARGS__)
 #else
 	#define TRACE(fmt, ...)
 #endif
 
-#define ASSERT							assert
-#define VERIFY(expr)					((expr) ? TRUE : (ERROR_EXIT2(EXIT_CODE_SOFTWARE, ERROR_VERIFY_CHECK), FALSE))
+#define ASSERT(expr)					((expr) ? TRUE : (::PrintStackTrace(), assert((FALSE)), FALSE))
+#define VERIFY(expr)					((expr) ? TRUE : (::PrintStackTrace(), ERROR_ABORT2(ERROR_VERIFY_CHECK), FALSE))
 #define ASSERT_IS_NO_ERROR(expr)		ASSERT(IS_NO_ERROR(expr))
 #define VERIFY_IS_NO_ERROR(expr)		VERIFY(IS_NO_ERROR(expr))
 #define	ENSURE(expr)					VERIFY(expr)
@@ -149,6 +149,8 @@ inline void PrintError(LPCSTR subject)	{perror(subject);}
 #define REALLOC(p, T, n)				((T*)realloc((PVOID)(p), sizeof(T) * (n)))
 #define FREE(p)							free((PVOID)(p))
 
+#define InterlockedAdd(p, n)			__atomic_fetch_add((p), (n), memory_order_seq_cst)
+#define InterlockedSub(p, n)			__atomic_fetch_sub((p), (n), memory_order_seq_cst)
 #define InterlockedExchangeAdd(p, n)	__atomic_add_fetch((p), (n), memory_order_seq_cst)
 #define InterlockedExchangeSub(p, n)	__atomic_sub_fetch((p), (n), memory_order_seq_cst)
 #define InterlockedIncrement(p)			InterlockedExchangeAdd((p), 1)
@@ -312,6 +314,7 @@ BOOL		ReadTimer(FD tmr, ULLONG* pVal = nullptr, BOOL* pRs = nullptr);
 
 BOOL fcntl_SETFL(FD fd, INT fl, BOOL bSet = TRUE);
 
+void PrintStackTrace();
 void EXIT(int iExitCode = 0, int iErrno = -1, LPCSTR lpszFile = nullptr, int iLine = 0, LPCSTR lpszFunc = nullptr, LPCSTR lpszTitle = nullptr);
 void _EXIT(int iExitCode = 0, int iErrno = -1, LPCSTR lpszFile = nullptr, int iLine = 0, LPCSTR lpszFunc = nullptr, LPCSTR lpszTitle = nullptr);
 void ABORT(int iErrno = -1, LPCSTR lpszFile = nullptr, int iLine = 0, LPCSTR lpszFunc = nullptr, LPCSTR lpszTitle = nullptr);

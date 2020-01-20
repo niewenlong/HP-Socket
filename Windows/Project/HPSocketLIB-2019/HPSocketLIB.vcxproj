@@ -213,7 +213,7 @@
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -237,7 +237,7 @@
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -261,7 +261,7 @@
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -285,7 +285,7 @@
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -313,7 +313,7 @@
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>jemalloc.lib;ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -341,7 +341,7 @@
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>jemalloc.lib;ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -369,7 +369,7 @@
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalDependencies>jemalloc.lib;ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -397,7 +397,7 @@
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalDependencies>jemalloc.lib;ws2_32.lib;crypt32.lib;libssl.lib;libcrypto.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4006 /ignore:4221 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4006 /ignore:4221 /ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <ProjectReference />
   </ItemDefinitionGroup>
@@ -460,6 +460,7 @@
     <ClInclude Include="..\..\Src\UdpArqServer.h" />
     <ClInclude Include="..\..\Src\UdpCast.h" />
     <ClInclude Include="..\..\Src\UdpClient.h" />
+    <ClInclude Include="..\..\Src\UdpNode.h" />
     <ClInclude Include="..\..\Src\UdpServer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -910,6 +911,7 @@
     <ClCompile Include="..\..\Src\UdpArqServer.cpp" />
     <ClCompile Include="..\..\Src\UdpCast.cpp" />
     <ClCompile Include="..\..\Src\UdpClient.cpp" />
+    <ClCompile Include="..\..\Src\UdpNode.cpp" />
     <ClCompile Include="..\..\Src\UdpServer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -2,11 +2,11 @@
 * Copyright: JessMA Open Source (ldcsaa@gmail.com)
 *
 * Author	: Bruce Liang
-* Website	: http://www.jessma.org
-* Project	: https://github.com/ldcsaa
+* Website	: https://github.com/ldcsaa
+* Project	: https://github.com/ldcsaa/HP-Socket
 * Blog		: http://www.cnblogs.com/ldcsaa
 * Wiki		: http://www.oschina.net/p/hp-socket
-* QQ Group	: 75375912, 44636872
+* QQ Group	: 44636872, 75375912
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "SocketInterface.h"
+#include "SocketHelper.h"
 
 #include "common/STLHelper.h"
 #include "common/Semaphore.h"
@@ -94,6 +94,7 @@ private:
 public:
 	virtual BOOL Start(DWORD dwThreadCount = 0, DWORD dwMaxQueueSize = 0, EnRejectedPolicy enRejectedPolicy = TRP_CALL_FAIL, DWORD dwStackSize = 0);
 	virtual BOOL Stop(DWORD dwMaxWait = INFINITE);
+	virtual BOOL Wait(DWORD dwMilliseconds = INFINITE) {return m_evWait.WaitFor(dwMilliseconds, CStopWaitingPredicate<IHPThreadPool>(this));}
 
 	virtual BOOL Submit(Fn_TaskProc fnTaskProc, PVOID pvArg, DWORD dwMaxWait = INFINITE);
 	virtual BOOL Submit(LPTSocketTask pTask, DWORD dwMaxWait = INFINITE);
@@ -104,6 +105,7 @@ public:
 	virtual EnServiceState GetState()				{return m_enState;}
 
 	virtual DWORD GetQueueSize()					{return (DWORD)m_lsTasks.size();}
+	virtual DWORD GetTaskCount()					{return m_dwTaskCount;}
 	virtual DWORD GetThreadCount()					{return m_dwThreadCount;}
 	virtual DWORD GetMaxQueueSize()					{return m_dwMaxQueueSize;}
 	virtual EnRejectedPolicy GetRejectedPolicy()	{return m_enRejectedPolicy;}
@@ -125,13 +127,14 @@ private:
 	int WorkerProc();
 
 	EnSubmitResult DirectSubmit(Fn_TaskProc fnTaskProc, PVOID pvArg, BOOL bFreeArg);
+	EnSubmitResult DoDirectSubmit(Fn_TaskProc fnTaskProc, PVOID pvArg, BOOL bFreeArg);
 	BOOL CycleWaitSubmit(Fn_TaskProc fnTaskProc, PVOID pvArg, DWORD dwMaxWait, BOOL bFreeArg);
 	BOOL DoSubmit(Fn_TaskProc fnTaskProc, PVOID pvArg, BOOL bFreeArg, DWORD dwMaxWait);
 
 public:
 	CHPThreadPool()
 	{
-		Reset();
+		Reset(FALSE);
 	}
 
 	virtual ~CHPThreadPool()
@@ -140,23 +143,27 @@ public:
 	}
 
 private:
-	void Reset();
+	void Reset(BOOL bSetWaitEvent = TRUE);
 
 private:
-	DWORD				m_dwStackSize;
-	DWORD				m_dwMaxQueueSize;
-	EnRejectedPolicy	m_enRejectedPolicy;
+	CSEM					m_evWait;
 
+	DWORD					m_dwStackSize;
+	DWORD					m_dwMaxQueueSize;
+	EnRejectedPolicy		m_enRejectedPolicy;
+
+	volatile DWORD			m_dwTaskCount;
 	volatile DWORD			m_dwThreadCount;
 	volatile EnServiceState	m_enState;
 
 	unordered_set<THR_ID>	m_stThreads;
 	queue<TTask*>			m_lsTasks;
 
-	CSEM				m_sem;
-	CCriSec				m_cs;
-	CMTX				m_mtx;
-	condition_variable	m_cv;
+	CSEM					m_sem;
+	CCriSec					m_cs;
+	CMTX					m_mtx;
+	condition_variable		m_cvTask;
+	condition_variable		m_cvQueue;
 
 	DECLARE_NO_COPY_CLASS(CHPThreadPool)
 };
